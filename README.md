@@ -1,5 +1,5 @@
 # FitFindr
-
+By XinBao Chen
 > ### 👋 Start here
 >
 > **New to this repo? Read [RUNNING.md](RUNNING.md) first** — setup, every
