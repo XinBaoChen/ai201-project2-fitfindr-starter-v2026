@@ -39,7 +39,10 @@ By XinBao Chen
 
 ## What This Does
 
-<!-- Three or four sentences: what a user asks for, and what they get back. -->
+FitFindr helps a user find secondhand clothing by description, size, and price.
+It searches the listings and chooses the best match. It then suggests outfits
+using the user's wardrobe and writes a short fit card for the item. If nothing
+matches, it explains what the user can change.
 
 
 
@@ -97,9 +100,13 @@ By XinBao Chen
 
 **Where it lives:** `agent.py::run_agent`
 
-**How the query is parsed:** <!-- regex, string splitting, or asking the model — say which -->
+**How the query is parsed:** Regex extracts the price and size. The remaining
+words become the description.
 
-**What moves through the session:** <!-- which fields, in what order -->
+**What moves through the session:** The query becomes `parsed`, then search
+results go into `search_results`. The first result becomes `selected_item`,
+then the outfit goes into `outfit_suggestion`, and the caption goes into
+`fit_card`.
 
 ---
 
@@ -113,25 +120,31 @@ By XinBao Chen
 **One full query**
 
 ```
-$ python app.py ask '...'
+$ python app.py ask 'vintage graphic tee under $30'
 
+Found: Y2K Baby Tee — Butterfly Print — $18.0 on depop
+Outfit: Y2K streetwear with baggy jeans, chunky white sneakers, and a black crossbody bag.
+Fit card: Channeling peak 2000s energy with this dreamy little graphic find.
 ```
 
 **The three tools, tested one at a time**
 
 ```
-$ python -c "from tools import search_listings; print(search_listings('graphic tee', max_price=30))"
+$ python -c "from tools import search_listings; print([item['id'] for item in search_listings('graphic tee', max_price=30)])"
 
+['lst_002', 'lst_006', 'lst_017', 'lst_033', 'lst_011', 'lst_012', 'lst_015']
 ```
 
 ```
-$ python -c "from tools import suggest_outfit; ..."
+$ python -c "from tools import suggest_outfit; from utils.data_loader import get_example_wardrobe, load_listings; print(suggest_outfit(load_listings()[0], get_example_wardrobe()))"
 
+Outfit 1: Casual Streetwear with a white tank top, chunky white sneakers, and a black crossbody bag.
 ```
 
 ```
-$ python -c "from tools import create_fit_card; ..."
+$ python -c "from tools import create_fit_card; from utils.data_loader import load_listings; print(create_fit_card('jeans and white sneakers', load_listings()[0]))"
 
+Nothing beats the effortless feel of a truly broken in pair of denim. I just scored these jeans for $38 on depop.
 ```
 
 ---
@@ -147,15 +160,15 @@ $ python -c "from tools import create_fit_card; ..."
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked AI to fact check the listing fields and look for search edge cases.
+- *What came back:* It pointed out that a simple size search could match `M` inside `XL`, and that many brands are `None`.
+- *What I changed:* I used token aware size matching and treated a missing brand as empty search text.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked AI to review the planning loop for empty results and state problems.
+- *What came back:* It said the loop must stop before the model tools when search returns an empty list, and must keep the selected item in the session.
+- *What I changed:* I added the empty search message and made each later tool read its input from the session.
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
