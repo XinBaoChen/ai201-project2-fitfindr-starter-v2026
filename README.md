@@ -190,17 +190,34 @@ Nothing beats the effortless feel of a truly broken in pair of denim. I just sco
 
 | Criterion | Target | Try 1 | Try 2 | Try 3 | Try 4 | Try 5 | Verdict |
 |---|---|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |  |  |
+| 1. Full three tool run returns a fit card | 4 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 2. Empty search stops before tool two | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 3. Selected item stays in session state | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 4. Five different fit cards contain item, price, and platform | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 5. Price limit is respected | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
 
 **Real output from one try**, pasted as text, naming the file and function
 that produced it:
 
 ```
+results/run_2026-10-09_2107_before.md, produced by agent.py::run_agent
 
+Criterion 1 output:
+Channeling major early 2000s energy with this dreamy little butterfly graphic. I love styling fitted crops like this Y2K Baby Tee — Butterfly Print with baggy denim for that effortless downtown look. Grab this sweet little piece over on my Depop for just $18 before it’s gone!
+
+Criterion 2 output:
+No listings matched. Try broader keywords, another size, or a higher maximum price.
+
+Criterion 3 output:
+selected_item: Y2K Baby Tee — Butterfly Print ($18.0, depop)
+[2] suggest_outfit
+     in:  dict with keys: new_item, wardrobe
+
+Criterion 4 output:
+Channeling major retro off-duty energy with this pristine 90s Track Jacket — Navy/White Stripe. It's the ultimate throw-on layer for breezy days, and it’s up for grabs for just $45. Snag this little piece of nostalgia over on my Poshmark closet before someone else beats you to it!
+
+Criterion 5 output:
+Channeling major Y2K pop star energy with these chunky Velcro kicks. I just dropped these Platform Sneakers — White Chunky Sole over on Poshmark for $48. They are begging to be styled with baggy denim and a little white tank.
 ```
 
 ---

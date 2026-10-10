@@ -35,18 +35,51 @@ SCENARIOS = [
         "wardrobe": "empty",
         "criterion": None,
     },
-    # TODO: add what your criteria 3, 4 and 5 need.
-    #
-    # Set "criterion" to the number in criteria.md that the scenario tests.
-    # "criterion": None means a diagnostic run — useful to have, but it isn't
-    # one of your five, and run_eval.py marks it as such in the table.
-    #
-    # For a state criterion, any normal query works — what you're checking is
-    # what ends up in the session, not what the user typed.
-    #
-    # For a fit-card criterion, you probably want the SAME query listed more
-    # than once, or several different items, depending on what your criterion
-    # actually says.
+    {
+        # Any matching query lets us compare selected_item with the next tool input.
+        "name": "selected item stays in state",
+        "query": "vintage graphic tee under $30",
+        "wardrobe": "example",
+        "criterion": 3,
+    },
+    {
+        # Five different listings test the fit card criterion.
+        "name": "fit card track jacket",
+        "query": "90s track jacket in size M",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        "name": "fit card platform sneakers",
+        "query": "platform sneakers size 8",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        "name": "fit card leather belt",
+        "query": "braided leather belt under $15",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        "name": "fit card slip dress",
+        "query": "silk slip dress midi length under $40",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        "name": "fit card denim jacket",
+        "query": "cropped denim jacket under $50",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        # Every returned result must stay at or below this price ceiling.
+        "name": "maximum price is respected",
+        "query": "platform sneakers under $50",
+        "wardrobe": "example",
+        "criterion": 5,
+    },
 ]
 
 WARDROBES = ("example", "empty")
