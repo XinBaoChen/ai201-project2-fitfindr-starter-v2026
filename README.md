@@ -242,19 +242,22 @@ Channeling major Y2K pop star energy with these chunky Velcro kicks. I just drop
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 | Full three tool run returns a fit card | 4 of 5 | MET (5/5) | All five matching runs completed search, outfit advice, and a fit card. |
-| 2 | Empty search stops before tool two | 5 of 5 | MET (5/5) | All five impossible queries stopped after the empty MCP search and gave a useful message. |
-| 3 | Selected item stays in session state | 5 of 5 | MET (5/5) | All five state checks found the same listing id in the session and the outfit tool input. |
-| 4 | Five different fit cards contain item, price, and platform | 5 of 5 | MET (5/5) | Five different listings produced cards with the required item, price, and platform details. |
-| 5 | Price limit is respected | 5 of 5 | MET (5/5) | Every listing returned in all five price limited runs was at or below the requested limit. |
+| 1 | Full three tool run returns a fit card | 4 of 5 | MET (5/5) | Every matching run returned search results, outfit advice, and a fit card. The loop completed all three stages five times. |
+| 2 | Empty search stops before tool two | 5 of 5 | MET (5/5) | Every impossible query returned an empty search list, stored a helpful message, and stopped before `suggest_outfit`. |
+| 3 | Selected item stays in session state | 5 of 5 | MET (5/5) | The listing id in `session["selected_item"]` matched the id received by `suggest_outfit` in every run. |
+| 4 | Five different fit cards contain item, price, and platform | 5 of 5 | MET (5/5) | Five different listings produced captions that named the item, price, and platform. The model changed the wording without losing these details. |
+| 5 | Price limit is respected | 5 of 5 | MET (5/5) | Every result from the five price limited searches was at or below the requested maximum price. |
 
 **Diagnoses**
 
-No criteria were missed. The local search and branch checks passed every time,
-and the model based checks also passed for every tested item. The targets were
-not automatic because the first criterion allowed only one miss and the other
-criteria required perfect results. Criterion 4 is the one I would tighten next
-by checking that the five cards also have different opening sentences.
+No criteria were missed, so there is no failed step or mechanism to diagnose.
+The search tool returned the right results, the MCP branch stopped correctly,
+the session carried the selected item, and the model returned usable cards.
+The targets were not automatic because criterion 1 allowed only one miss and
+the other criteria required perfect results. I would tighten criterion 4 next
+by checking that the five cards also have different opening sentences. The
+current criterion checks useful content, but it does not catch a model that
+repeats the same opening like it is stuck on one fashionable sentence.
 
 
 ---
