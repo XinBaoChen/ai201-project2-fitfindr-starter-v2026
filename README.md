@@ -252,20 +252,42 @@ that produced it:
 **Happy path**
 
 ```
-
+[1] search_listings (via MCP)
+     in:  dict with keys: description, size, max_price
+     out: 10 items: Y2K Baby Tee, Graphic Tee, Vintage Band Tee
+[2] suggest_outfit
+     in:  dict with keys: new_item, wardrobe
+     out: Outfit 1: Y2K Streetwear
+[3] create_fit_card
+     in:  dict with keys: outfit, new_item
+     out: Channeling peak 2000s energy with this dreamy little graphic find.
 ```
 
 **Empty search**
 
 ```
-
+[1] search_listings (via MCP)
+     in:  dict with keys: description, size, max_price
+     out: [] (empty)
+[2] branch
+     out: No listings matched. Try broader keywords, another size, or a higher maximum price.
+          empty search, stopping before model tools
 ```
 
-**On the MCP move:** <!-- what changed in your code, and whether anything
-behaved differently afterwards. If the rewire didn't work, say exactly where it
-broke — the error text and the last thing that worked. That earns the point in
-full. -->
+**Failure messages**
 
+The empty search message says that no listings matched and suggests broader
+keywords, another size, or a higher maximum price.
+
+The empty wardrobe test returned general styling advice instead of crashing.
+
+The model failure message says that the model could not be reached while
+creating outfit advice. It suggests checking the API key or internet connection
+and trying again.
+
+Search now runs through `mcp_client.call_tool`. It still returns a list of
+listing dictionaries, so the branch behaves the same and does not get lost in
+the protocol forest.
 
 
 ---
