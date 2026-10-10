@@ -207,8 +207,10 @@ def create_fit_card(outfit: str, new_item: dict) -> str:
 
     prompt = (
         "Write a two to four sentence social media caption for this thrift "
-        "find. Mention the item title, price, and platform once each. Make "
-        "the vibe specific and natural.\nItem:\n"
+        "find. Start with a fresh hook that is specific to this item's title "
+        "or visual details. Do not use a generic opening or repeat a common "
+        "template. Mention the item title, price, and platform once each. "
+        "Make the vibe specific and natural.\nItem:\n"
         f"{json.dumps(new_item)}\nOutfit suggestion:\n{outfit}"
     )
     return generate(

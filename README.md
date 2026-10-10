@@ -325,20 +325,69 @@ the protocol forest.
      `python run_eval.py --label after` -->
 
 **What I changed:**
+I added one instruction to the `create_fit_card` prompt. It now asks for a
+fresh hook based on the item's title or visual details and tells the model not
+to repeat a generic template.
 
 **Which failure it was meant to fix:**
+The diagnosis pointed to model output quality. The original criteria all
+passed, but criterion 4 did not check whether different items received fresh
+openings.
 
 ### Run Log — After
 
 | Criterion | Target | Try 1 | Try 2 | Try 3 | Try 4 | Try 5 | Verdict |
 |---|---|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |  |  |
+| 1. Full three tool run returns a fit card | 4 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 2. Empty search stops before tool two | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 3. Selected item stays in session state | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 4. Five different fit cards contain item, price, and platform | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+| 5. Price limit is respected | 5 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
+
+**Real output from the after run**
+
+The output came from `results/run_2026-10-09_2158_after.md`, produced by
+`run_eval.py::main` and `agent.py::run_agent`.
+
+Criterion 1 returned this fit card:
+
+```
+Nostalgic flutter graphics and pink-tinted nostalgia just landed in the shop. This Y2K Baby Tee with a butterfly print is serving major early 2000s energy and is ready for your next low-rise denim moment. Grab it now for just $18 over on my Depop before it's gone!
+```
+
+Criterion 2 stopped with this message:
+
+```
+No listings matched. Try broader keywords, another size, or a higher maximum price.
+```
+
+Criterion 3 recorded this selected item:
+
+```
+selected_item: Y2K Baby Tee — Butterfly Print ($18.0, depop)
+```
+
+Criterion 4 produced these five item specific openings:
+
+```
+That crisp white sleeve piping hits different on a true vintage piece.
+These chunky velcro soles carry so much 2000s mall-rat nostalgia.
+That warm, worn-in patina on a Western buckle just hits different.
+Channeling total 90s indie sleaze by throwing an oversized grey crewneck right over this muted floral midi.
+That 80s shoulder structure on this Wrangler Denim Jacket is everything.
+```
+
+Criterion 5 returned this item under the requested limit:
+
+```
+selected_item: Platform Sneakers — White Chunky Sole ($48.0, poshmark)
+search_results: 2
+```
 
 **Did it help, and how do I know:**
+Yes. The score stayed at five out of five, and the five different fit card
+scenarios produced fresh openings while keeping the item, price, and platform.
+The change improved the model output without breaking the existing behavior.
 
 <!-- If it made things worse, say that. Honestly reported, that earns full
      credit and is more interesting than one that worked. -->
@@ -353,7 +402,9 @@ the protocol forest.
      you did. "I ran out of time" is fine if it's true. Pretending nothing is
      left is not. -->
 
-
+Nothing from these five criteria is currently broken. A future test could make
+criterion 4 stricter by formally checking that no two fit cards share an
+opening sentence.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
