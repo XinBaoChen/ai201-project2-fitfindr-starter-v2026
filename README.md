@@ -242,14 +242,19 @@ Channeling major Y2K pop star energy with these chunky Velcro kicks. I just drop
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Full three tool run returns a fit card | 4 of 5 | MET (5/5) | All five matching runs completed search, outfit advice, and a fit card. |
+| 2 | Empty search stops before tool two | 5 of 5 | MET (5/5) | All five impossible queries stopped after the empty MCP search and gave a useful message. |
+| 3 | Selected item stays in session state | 5 of 5 | MET (5/5) | All five state checks found the same listing id in the session and the outfit tool input. |
+| 4 | Five different fit cards contain item, price, and platform | 5 of 5 | MET (5/5) | Five different listings produced cards with the required item, price, and platform details. |
+| 5 | Price limit is respected | 5 of 5 | MET (5/5) | Every listing returned in all five price limited runs was at or below the requested limit. |
 
 **Diagnoses**
 
+No criteria were missed. The local search and branch checks passed every time,
+and the model based checks also passed for every tested item. The targets were
+not automatic because the first criterion allowed only one miss and the other
+criteria required perfect results. Criterion 4 is the one I would tighten next
+by checking that the five cards also have different opening sentences.
 
 
 ---
