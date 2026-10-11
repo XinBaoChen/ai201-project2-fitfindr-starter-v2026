@@ -170,6 +170,22 @@ Nothing beats the effortless feel of a truly broken in pair of denim. I just sco
 - *What came back:* It said the loop must stop before the model tools when search returns an empty list, and must keep the selected item in the session.
 - *What I changed:* I added the empty search message and made each later tool read its input from the session.
 
+**Moment 3 — Unit 4**
+
+- *What I asked for:* I asked AI to help check whether the five acceptance criteria
+  were measurable, then reviewed the five uncached tries in each saved run log.
+- *What came back:* It confirmed that the original criteria all passed, but pointed
+  out that criterion 4 did not measure whether cards had fresh openings. It also
+  helped me verify that moving `search_listings` behind
+  `mcp_client.call_tool` did not change the list or the empty-list branch.
+- *What I changed:* I added a fresh-hook instruction to the `create_fit_card`
+  prompt, ran the same five scenarios again, and recorded both results in
+  `results/run_2026-10-09_2107_before.md` and
+  `results/run_2026-10-09_2158_after.md`. I kept the criterion unchanged
+  because it was measurable as originally written; the fresh-opening check is
+  documented as a future improvement rather than pretending it was part of the
+  scored target.
+
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 3.
@@ -402,9 +418,16 @@ The change improved the model output without breaking the existing behavior.
      you did. "I ran out of time" is fine if it's true. Pretending nothing is
      left is not. -->
 
-Nothing from these five criteria is currently broken. A future test could make
-criterion 4 stricter by formally checking that no two fit cards share an
-opening sentence.
+No scored criterion is currently missed: all five criteria met their targets in
+both the before and after runs. The remaining limitation is that criterion 4
+checks item, price, platform, and sentence count, but does not formally require
+five distinct opening sentences. To address that, I would save the first
+sentence of each card and compare the five normalized openings, then add that
+as a revised, separately scored criterion. I stopped there because the original
+criterion was already written and measurable, and the Unit 4 improvement was
+intended to preserve its target rather than change the grading rule after
+seeing the results. The prompt change produced visibly different openings, but
+I did not claim a stricter pass that I did not formally measure.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
